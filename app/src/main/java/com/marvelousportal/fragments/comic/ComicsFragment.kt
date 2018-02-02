@@ -3,6 +3,7 @@ package com.marvelousportal.fragments.comic
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.SearchView
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,6 +44,17 @@ class ComicsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         setupRecyclerView()
+        search_comics.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                searchComic(query)
+                search_comics.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
     }
 
     private fun init() {
@@ -71,6 +83,7 @@ class ComicsFragment : BaseFragment() {
             } else {
                 tv_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
             }
+            comicsList?.clear()
             comicsList?.addAll(userResponse.data.results)
             mAdapter?.setUserList(comicsList)
             comics_view_flipper.displayedChild = 1
@@ -104,5 +117,28 @@ class ComicsFragment : BaseFragment() {
             }
         }
         addSubscription(ApiFactory.makeApiCall(observable, listener))*/
+    }
+
+    private fun searchComic(query: String) {
+        comics_view_flipper.displayedChild = 0
+        val appController = AppController.create(mContext)
+        val usersService = appController.apiService
+        val timeStamp = getTimestamp()
+        val disposable = usersService?.searchComics(timeStamp, Constant.PUBLIC_KEY, getHash(timeStamp),query)?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                tv_attribution_html.text = Html.fromHtml(userResponse.attributionHTML, Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                tv_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
+            }
+            comicsList?.clear()
+            comicsList?.addAll(userResponse.data.results)
+            mAdapter?.setUserList(comicsList)
+            comics_view_flipper.displayedChild = 1
+        }, {
+            comics_view_flipper.displayedChild = 1
+            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            Log.i("error", it.message)
+        })
+        addSubscription(disposable)
     }
 }

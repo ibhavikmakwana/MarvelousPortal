@@ -94,12 +94,8 @@ class DetailActivity : BaseActivity() {
         when (type) {
             COMICS -> comicDetails(id)
             CHARACTERS -> characterDetails(id)
-            EVENTS -> {
-
-            }
-            SERIES -> {
-
-            }
+            EVENTS -> eventsDetails(id)
+            SERIES -> seriesDetails(id)
         }
     }
 
@@ -221,6 +217,38 @@ class DetailActivity : BaseActivity() {
         }
         val timeFormat = SimpleDateFormat("dd MMM, yyy")
         return timeFormat.format(myDate)
+    }
+
+    private fun seriesDetails(id: Int) {
+        val appController = AppController.create(this)
+        val usersService = appController.apiService
+        val timeStamp = getTimestamp()
+        val disposable = usersService?.fetchSeriesDetail(id,
+                timeStamp,
+                Constant.PUBLIC_KEY,
+                getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
+            setUpCharacterDetail(userResponse.data.results)
+        }, {
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            Log.i("error", it.message)
+        })
+        addSubscription(disposable)
+    }
+
+    private fun eventsDetails(id: Int) {
+        val appController = AppController.create(this)
+        val usersService = appController.apiService
+        val timeStamp = getTimestamp()
+        val disposable = usersService?.fetchEventsDetail(id,
+                timeStamp,
+                Constant.PUBLIC_KEY,
+                getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
+            Log.i("Response",userResponse.data.results.toString())
+        }, {
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            Log.i("error", it.message)
+        })
+        addSubscription(disposable)
     }
 
     /**

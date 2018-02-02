@@ -24,9 +24,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search_comics"
+                android:layout_width="match_parent"
+                app:queryHint="@string/search"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:iconifiedByDefault="false"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_comics"
                 android:layout_width="match_parent"
+                android:layout_below="@id/search_comics"
                 android:layout_height="match_parent"
                 android:layout_above="@id/tv_attribution_html"/>
 

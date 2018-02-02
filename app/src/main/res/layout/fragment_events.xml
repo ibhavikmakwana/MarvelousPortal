@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ViewFlipper
-        android:id="@+id/series_view_flipper"
+        android:id="@+id/events_view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,27 +25,27 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.SearchView
-                android:id="@+id/search_series"
+                android:id="@+id/search_events"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:queryHint="@string/search"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 app:iconifiedByDefault="false"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_series"
+                android:id="@+id/rv_events"
                 android:layout_width="match_parent"
+                android:layout_below="@id/search_events"
                 android:layout_height="match_parent"
-                android:layout_above="@id/tv_series_attribution_html"
-                android:layout_below="@id/search_series"/>
+                android:layout_above="@id/tv_events_attribution_html"/>
 
             <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_series_attribution_html"
+                android:id="@+id/tv_events_attribution_html"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:autoLink="web"
                 android:gravity="center"
+                android:layout_alignParentBottom="true"
                 android:padding="@dimen/margin_4"
                 android:textColor="@android:color/white"/>
         </RelativeLayout>

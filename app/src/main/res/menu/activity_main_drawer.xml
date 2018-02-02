@@ -6,11 +6,11 @@
     <group>
         <item
             android:id="@+id/nav_characters"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_character_24dp"
             android:title="@string/characters"/>
         <item
             android:id="@+id/nav_comics"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_comics_24dp"
             android:title="@string/comics"/>
         <item
             android:id="@+id/nav_series"
@@ -18,7 +18,7 @@
             android:title="@string/series"/>
         <item
             android:id="@+id/nav_events"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_event_24dp"
             android:title="@string/events"/>
     </group>
 

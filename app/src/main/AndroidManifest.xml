@@ -26,8 +26,18 @@
             android:label="@string/title_home"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
         </activity>
         <activity android:name=".activities.DetailActivity">
+        </activity>
+        <activity
+            android:name=".activities.SearchResultActivity"
+            android:label=""
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name=".activities.ZoomImageActivity">
         </activity>
     </application>
 

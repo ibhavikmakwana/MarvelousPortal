@@ -7,8 +7,8 @@ package com.marvelousportal.utils
 interface Constant {
     companion object {
         val BASE_URL = "http://gateway.marvel.com/"
-        val PUBLIC_KEY = "YOUR_PUBLIC_KEY"
-        val PRIVATE_KEY = "YOUR_PRIVATE_KEY"
+        val PUBLIC_KEY = "bae8d2281a0d569b0cfd5fbc7cd6ee6f"
+        val PRIVATE_KEY = "8ec9a86b449cfdacb2a0129a896ea35ef6fe98fc"
 
 
         //Error codes

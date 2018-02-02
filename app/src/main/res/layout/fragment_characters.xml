@@ -15,20 +15,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ProgressBar
+        <!--<ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"/>-->
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search_character"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:iconifiedByDefault="false"
+                app:queryHint="@string/search"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_characters"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/tv_character_attribution_html"/>
+                android:layout_above="@id/tv_character_attribution_html"
+                android:layout_below="@id/search_character"/>
 
             <com.marvelousportal.base.BaseTextView
                 android:id="@+id/tv_character_attribution_html"

@@ -2,6 +2,7 @@ package com.marvelousportal.fragments.characters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -59,5 +60,15 @@ class CharactersAdapter(context: Context, characters: List<Result>) : RecyclerVi
     fun setUserList(character: List<Result>?) {
         mResult = character
         notifyDataSetChanged()
+    }
+
+    /**
+     * get Dominant color from the image view
+     */
+    private fun getDominantColor(bitmap: Bitmap): Int {
+        val newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true)
+        val color = newBitmap.getPixel(0, 0)
+        newBitmap.recycle()
+        return color
     }
 }
