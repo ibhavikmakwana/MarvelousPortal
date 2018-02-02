@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/list_roles"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:visibility="gone">
+
+    <com.marvelousportal.base.BaseTextView
+        android:id="@+id/tv_detail_role"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:paddingBottom="@dimen/margin_4"
+        android:paddingTop="@dimen/margin_4"
+        android:text="@string/published"
+        android:textColor="@android:color/white"/>
+
+    <com.marvelousportal.base.BaseTextView
+        android:id="@+id/tv_detail_role_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:paddingBottom="@dimen/margin_4"
+        android:paddingTop="@dimen/margin_4"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

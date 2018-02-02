@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Marvelous Portal</string>
+    <string name="title_home">Home</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="comics">Comics</string>
+    <string name="characters">Characters</string>
+    <string name="series">Series</string>
+    <string name="communicate">Communicate</string>
+    <string name="events">Events</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="published">Published:</string>
+</resources>

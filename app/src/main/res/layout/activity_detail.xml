@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/nested_details"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical"
+    tools:context="com.marvelousportal.activities.DetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_8"
+        android:orientation="vertical">
+
+        <!--image-->
+        <com.marvelousportal.base.BaseImageView
+            android:id="@+id/iv_detail_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_250"/>
+
+        <!--title or name-->
+        <com.marvelousportal.base.BaseTextView
+            android:id="@+id/tv_details_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_16"
+            tools:text="OFFICIAL HANDBOOK OF THE MARVEL UNIVERSE (2004) #11 (X-MEN - AGE OF APOCALYPSE)"/>
+
+        <!--published date-->
+        <LinearLayout
+            android:id="@+id/ll_detail_published"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.marvelousportal.base.BaseTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_4"
+                android:paddingTop="@dimen/margin_4"
+                android:text="@string/published"
+                android:textColor="@android:color/white"/>
+
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_detail_published"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_4"
+                android:paddingTop="@dimen/margin_4"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <!--Roles-->
+        <LinearLayout
+            android:id="@+id/ll_detail_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+        </LinearLayout>
+
+        <!--Description-->
+        <com.marvelousportal.base.BaseTextView
+            android:id="@+id/tv_detail_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_4"
+            android:paddingTop="@dimen/margin_4"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
