@@ -1,78 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+
+<!--<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context="com.marvelousportal.activities.DetailActivity">-->
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:orientation="vertical"
     tools:context="com.marvelousportal.activities.DetailActivity">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nested_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_8"
-        android:orientation="vertical">
+        android:layout_above="@id/ll_detail_footer">
 
-        <!--image-->
-        <com.marvelousportal.base.BaseImageView
-            android:id="@+id/iv_detail_image"
+        <LinearLayout
+            android:id="@+id/ll_main_detail"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_250"/>
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_8"
+            android:orientation="vertical">
 
-        <!--title or name-->
+            <!--image-->
+            <com.marvelousportal.base.BaseImageView
+                android:id="@+id/iv_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_250"
+                android:scaleType="centerCrop"/>
+
+            <!--title or name-->
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_details_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_20"
+                android:textStyle="bold"
+                tools:text="OFFICIAL HANDBOOK OF THE MARVEL UNIVERSE (2004) #11 (X-MEN - AGE OF APOCALYPSE)"/>
+
+            <!--published date-->
+            <LinearLayout
+                android:id="@+id/ll_detail_published"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:text="@string/published"
+                    android:textSize="@dimen/text_16"/>
+
+                <com.marvelousportal.base.BaseTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:text="@string/dash"
+                    android:textSize="@dimen/text_16"/>
+
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:textSize="@dimen/text_16"/>
+            </LinearLayout>
+
+            <!--Roles-->
+            <LinearLayout
+                android:id="@+id/ll_detail_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+            </LinearLayout>
+
+            <!--Description-->
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_detail_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_4"
+                android:paddingTop="@dimen/margin_4"
+                android:textSize="@dimen/text_16"/>
+
+
+            <!--core issue listing-->
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_detail_core_issues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_4"
+                android:paddingTop="@dimen/margin_4"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_20"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_detail_core_issues"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:visibility="gone"/>
+
+            <!--tile issues listing-->
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_detail_tile_issues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_4"
+                android:paddingTop="@dimen/margin_4"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_20"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_detail_tile_issues"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:visibility="gone"/>
+
+            <!--character in event listing-->
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_detail_characters_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_4"
+                android:paddingTop="@dimen/margin_4"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_20"
+                android:textStyle="bold"
+                android:text="@string/characters_in_this_event"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_detail_characters_event"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <!--FOOTER-->
+    <LinearLayout
+        android:id="@+id/ll_detail_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <com.marvelousportal.base.BaseTextView
-            android:id="@+id/tv_details_title"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_8"
-            android:textColor="@android:color/white"
+            android:padding="@dimen/margin_8"
+            android:text="@string/detail"
             android:textSize="@dimen/text_16"
-            tools:text="OFFICIAL HANDBOOK OF THE MARVEL UNIVERSE (2004) #11 (X-MEN - AGE OF APOCALYPSE)"/>
+            android:visibility="gone"/>
 
-        <!--published date-->
-        <LinearLayout
-            android:id="@+id/ll_detail_published"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <com.marvelousportal.base.BaseTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_4"
-                android:paddingTop="@dimen/margin_4"
-                android:text="@string/published"
-                android:textColor="@android:color/white"/>
-
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_detail_published"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_4"
-                android:paddingTop="@dimen/margin_4"
-                android:textColor="@android:color/white"/>
-        </LinearLayout>
-
-        <!--Roles-->
-        <LinearLayout
-            android:id="@+id/ll_detail_role"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-        </LinearLayout>
-
-        <!--Description-->
         <com.marvelousportal.base.BaseTextView
-            android:id="@+id/tv_detail_description"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_wiki"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_4"
-            android:paddingTop="@dimen/margin_4"
-            android:textColor="@android:color/white"/>
+            android:padding="@dimen/margin_8"
+            android:text="@string/wiki"
+            android:textSize="@dimen/text_16"
+            android:visibility="gone"/>
 
+        <com.marvelousportal.base.BaseTextView
+            android:id="@+id/tv_comic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_8"
+            android:text="@string/comic"
+            android:textSize="@dimen/text_16"
+            android:visibility="gone"/>
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.marvelousportal.fragments.series
+package com.marvelousportal.fragments.events
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.marvelousportal.R
 import com.marvelousportal.activities.DetailActivity
 import com.marvelousportal.models.Result
-import com.marvelousportal.utils.Constant.Companion.SERIES
+import com.marvelousportal.utils.Constant.Companion.EVENTS
 import kotlinx.android.synthetic.main.layout_grid.view.*
 import java.util.*
 
@@ -19,7 +19,7 @@ import java.util.*
  * Created by Bhavik Makwana on 1/30/2018.
  */
 
-class SeriesAdapter(context: Context, comics: List<Result>) : RecyclerView.Adapter<SeriesAdapter.ItemViewHolder>() {
+class EventsAdapter(context: Context, comics: List<Result>) : RecyclerView.Adapter<EventsAdapter.ItemViewHolder>() {
 
     private var mResult: List<Result>? = ArrayList()
     private var mContext: Context? = null
@@ -43,7 +43,7 @@ class SeriesAdapter(context: Context, comics: List<Result>) : RecyclerView.Adapt
         Log.i("PATH", path)
         Glide.with(mContext).load(path).into(holder.charImage)
         holder.rootLayout.setOnClickListener {
-            DetailActivity.launchActivity(mContext!!, resultInfo?.id!!, SERIES)
+            DetailActivity.launchActivity(mContext!!, resultInfo?.id!!, EVENTS)
         }
     }
 

@@ -24,11 +24,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search_series"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:queryHint="@string/search"
+                android:focusable="false"
+                app:iconifiedByDefault="false"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_series"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/tv_series_attribution_html"/>
+                android:layout_above="@id/tv_series_attribution_html"
+                android:layout_below="@id/search_series"/>
 
             <com.marvelousportal.base.BaseTextView
                 android:id="@+id/tv_series_attribution_html"
@@ -37,8 +46,7 @@
                 android:layout_alignParentBottom="true"
                 android:autoLink="web"
                 android:gravity="center"
-                android:padding="@dimen/margin_4"
-                android:textColor="@android:color/white"/>
+                android:padding="@dimen/margin_4"/>
         </RelativeLayout>
     </ViewFlipper>
 </android.support.constraint.ConstraintLayout>

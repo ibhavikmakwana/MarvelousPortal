@@ -1,6 +1,7 @@
 package com.marvelousportal.network
 
 import android.content.ContentValues.TAG
+import android.support.annotation.NonNull
 import android.util.Log
 import com.marvelousportal.utils.Constant.Companion.BASE_URL
 import com.marvelousportal.utils.Constant.Companion.ERROR_CODE_GENERAL
@@ -10,7 +11,6 @@ import com.marvelousportal.utils.Constant.Companion.ERROR_MESSAGE_SOMETHING_WRON
 import com.marvelousportal.utils.Constant.Companion.RES_SUCCESS
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient

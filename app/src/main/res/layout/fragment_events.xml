@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ViewFlipper
-        android:id="@+id/comics_view_flipper"
+        android:id="@+id/events_view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,7 +25,7 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.SearchView
-                android:id="@+id/search_comics"
+                android:id="@+id/search_events"
                 android:layout_width="match_parent"
                 app:queryHint="@string/search"
                 android:layout_height="wrap_content"
@@ -33,14 +33,14 @@
                 app:iconifiedByDefault="false"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_comics"
+                android:id="@+id/rv_events"
                 android:layout_width="match_parent"
-                android:layout_below="@id/search_comics"
+                android:layout_below="@id/search_events"
                 android:layout_height="match_parent"
-                android:layout_above="@id/tv_attribution_html"/>
+                android:layout_above="@id/tv_events_attribution_html"/>
 
             <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_attribution_html"
+                android:id="@+id/tv_events_attribution_html"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"

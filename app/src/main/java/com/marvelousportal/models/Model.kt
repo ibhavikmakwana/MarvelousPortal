@@ -56,7 +56,9 @@ data class Result(
         @SerializedName("prices") val prices: List<Price>,
         @SerializedName("images") val images: List<Image>,
         @SerializedName("creators") val creators: Creators,
-        @SerializedName("characters") val characters: Characters
+        @SerializedName("characters") val characters: Characters,
+        @SerializedName("start") val start: String,
+        @SerializedName("end") val end: String
 )
 
 data class Thumbnail(
@@ -139,7 +141,7 @@ data class Creators(
 data class Characters(
         @SerializedName("available") val available: Int? = null,
         @SerializedName("collectionURI") val collectionURI: String,
-        @SerializedName("items") val items: List<Any>,
+        @SerializedName("items") val items: List<Item>,
         @SerializedName("returned") val returned: Int
 )
 

@@ -1,4 +1,4 @@
-package com.marvelousportal.fragments.series
+package com.marvelousportal.fragments.events
 
 import android.os.Build
 import android.os.Bundle
@@ -17,41 +17,41 @@ import com.marvelousportal.base.BaseFragment
 import com.marvelousportal.models.Result
 import com.marvelousportal.utils.Constant
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_series.*
+import kotlinx.android.synthetic.main.fragment_events.*
 import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [SeriesFragment.OnFragmentInteractionListener] interface
+ * [EventsFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
  */
-class SeriesFragment : BaseFragment() {
-    private var mAdapter: SeriesAdapter? = null
-    private var seriesList: MutableList<Result>? = null
+class EventsFragment : BaseFragment() {
+    private var mAdapter: EventsAdapter? = null
+    private var eventList: MutableList<Result>? = null
     /**
      * This method is used to instantiate the fragment.
      *
      * @return the instance of this fragment.
      */
-    fun newInstance(): SeriesFragment {
-        return SeriesFragment()
+    fun newInstance(): EventsFragment {
+        return EventsFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_series, container, false)
+        return inflater.inflate(R.layout.fragment_events, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
         setupRecyclerView()
-        search_series.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        search_events.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                searchSeries(query)
-                search_series.clearFocus()
+                searchEvent(query)
+                search_events.clearFocus()
                 return true
             }
 
@@ -63,57 +63,57 @@ class SeriesFragment : BaseFragment() {
 
     private fun init() {
         /*charactersViewModel = CharactersViewModel(mContext)*/
-        seriesList = ArrayList()
-        mAdapter = SeriesAdapter(mContext, seriesList!!)
-        search_series.clearFocus()
+        eventList = ArrayList()
+        mAdapter = EventsAdapter(mContext, eventList!!)
+        search_events.clearFocus()
     }
 
     private fun setupRecyclerView() {
-        rv_series.layoutManager = GridLayoutManager(mContext, 2)
-        rv_series.adapter = mAdapter
-        fetchSeriesList()
+        rv_events.layoutManager = GridLayoutManager(mContext, 2)
+        rv_events.adapter = mAdapter
+        fetchEventsList()
     }
 
-    private fun fetchSeriesList() {
-        series_view_flipper.displayedChild = 0
+    private fun fetchEventsList() {
+        events_view_flipper.displayedChild = 0
         val appController = AppController.create(mContext)
         val usersService = appController.apiService
         val timeStamp = getTimestamp()
-        val disposable = usersService?.fetchSeries(timeStamp, Constant.PUBLIC_KEY, getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
+        val disposable = usersService?.fetchEvents(timeStamp, Constant.PUBLIC_KEY, getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML, Html.FROM_HTML_MODE_LEGACY)
+                tv_events_attribution_html.text = Html.fromHtml(userResponse.attributionHTML, Html.FROM_HTML_MODE_LEGACY)
             } else {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
+                tv_events_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
             }
-            seriesList?.clear()
-            seriesList?.addAll(userResponse.data.results)
-            mAdapter?.setUserList(seriesList)
-            series_view_flipper.displayedChild = 1
+            eventList?.clear()
+            eventList?.addAll(userResponse.data.results)
+            mAdapter?.setUserList(eventList)
+            events_view_flipper.displayedChild = 1
         }, {
-            series_view_flipper.displayedChild = 1
+            events_view_flipper.displayedChild = 1
             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             Log.i("error", it.message)
         })
         addSubscription(disposable)
     }
 
-    private fun searchSeries(query: String) {
-        series_view_flipper.displayedChild = 0
+    private fun searchEvent(query: String) {
+        events_view_flipper.displayedChild = 0
         val appController = AppController.create(mContext)
         val usersService = appController.apiService
         val timeStamp = getTimestamp()
-        val disposable = usersService?.searchSeries(timeStamp, Constant.PUBLIC_KEY, getHash(timeStamp),query)?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
+        val disposable = usersService?.searchEvents(timeStamp, Constant.PUBLIC_KEY, getHash(timeStamp),query)?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML, Html.FROM_HTML_MODE_LEGACY)
+                tv_events_attribution_html.text = Html.fromHtml(userResponse.attributionHTML, Html.FROM_HTML_MODE_LEGACY)
             } else {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
+                tv_events_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
             }
-            seriesList?.clear()
-            seriesList?.addAll(userResponse.data.results)
-            mAdapter?.setUserList(seriesList)
-            series_view_flipper.displayedChild = 1
+            eventList?.clear()
+            eventList?.addAll(userResponse.data.results)
+            mAdapter?.setUserList(eventList)
+            events_view_flipper.displayedChild = 1
         }, {
-            series_view_flipper.displayedChild = 1
+            events_view_flipper.displayedChild = 1
             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             Log.i("error", it.message)
         })

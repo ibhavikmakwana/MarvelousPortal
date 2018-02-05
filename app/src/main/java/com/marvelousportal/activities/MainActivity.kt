@@ -13,9 +13,11 @@ import com.marvelousportal.R
 import com.marvelousportal.base.BaseActivity
 import com.marvelousportal.fragments.characters.CharactersFragment
 import com.marvelousportal.fragments.comic.ComicsFragment
+import com.marvelousportal.fragments.events.EventsFragment
 import com.marvelousportal.fragments.series.SeriesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -65,36 +67,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_about_us -> true
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        displaySelectedScreen(item.itemId);
-        // Handle navigation view item clicks here.
-        /*when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
-            }
-        }*/
-
+        displaySelectedScreen(item.itemId)
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -102,15 +82,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun displaySelectedScreen(itemId: Int) {
         //creating fragment object
         var fragment: Fragment? = null
-
         //initializing the fragment object which is selected
         when (itemId) {
             R.id.nav_characters -> fragment = CharactersFragment()
             R.id.nav_comics -> fragment = ComicsFragment()
             R.id.nav_series -> fragment = SeriesFragment()
-        /*R.id.nav_slideshow -> fragment = Menu3()*/
+            R.id.nav_events -> fragment = EventsFragment()
         }
-
         //replacing the fragment
         if (fragment != null) {
             val ft = supportFragmentManager.beginTransaction()

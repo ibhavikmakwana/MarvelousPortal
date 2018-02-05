@@ -29,4 +29,51 @@ interface APIService {
                              @Query("ts") ts: String,
                              @Query("apikey") apiKey: String,
                              @Query("hash") hash: String): Observable<Model>
+
+    @GET("v1/public/series")
+    fun fetchSeries(@Query("ts") ts: String,
+                    @Query("apikey") apiKey: String,
+                    @Query("hash") hash: String): Observable<Model>
+
+    @GET("v1/public/events")
+    fun fetchEvents(@Query("ts") ts: String,
+                    @Query("apikey") apiKey: String,
+                    @Query("hash") hash: String): Observable<Model>
+
+    @GET("v1/public/series/{seriesID}")
+    fun fetchSeriesDetail(@Path("seriesID") id: Int,
+                          @Query("ts") ts: String,
+                          @Query("apikey") apiKey: String,
+                          @Query("hash") hash: String): Observable<Model>
+
+    @GET("v1/public/events/{eventId}")
+    fun fetchEventsDetail(@Path("eventId") id: Int,
+                          @Query("ts") ts: String,
+                          @Query("apikey") apiKey: String,
+                          @Query("hash") hash: String): Observable<Model>
+
+
+    @GET("v1/public/characters")
+    fun searchCharacters(@Query("ts") ts: String,
+                         @Query("apikey") apiKey: String,
+                         @Query("hash") hash: String,
+                         @Query("nameStartsWith") nameStartsWith: String): Observable<Model>
+
+    @GET("v1/public/comics")
+    fun searchComics(@Query("ts") ts: String,
+                     @Query("apikey") apiKey: String,
+                     @Query("hash") hash: String,
+                     @Query("titleStartsWith") nameStartsWith: String): Observable<Model>
+
+    @GET("v1/public/events")
+    fun searchEvents(@Query("ts") ts: String,
+                     @Query("apikey") apiKey: String,
+                     @Query("hash") hash: String,
+                     @Query("nameStartsWith") nameStartsWith: String): Observable<Model>
+
+    @GET("v1/public/series")
+    fun searchSeries(@Query("ts") ts: String,
+                     @Query("apikey") apiKey: String,
+                     @Query("hash") hash: String,
+                     @Query("titleStartsWith") nameStartsWith: String): Observable<Model>
 }
