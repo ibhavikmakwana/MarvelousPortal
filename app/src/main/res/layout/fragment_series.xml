@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:queryHint="@string/search"
-                android:clickable="true"
+                android:focusable="false"
                 app:iconifiedByDefault="false"/>
 
             <android.support.v7.widget.RecyclerView
@@ -46,8 +46,7 @@
                 android:layout_alignParentBottom="true"
                 android:autoLink="web"
                 android:gravity="center"
-                android:padding="@dimen/margin_4"
-                android:textColor="@android:color/white"/>
+                android:padding="@dimen/margin_4"/>
         </RelativeLayout>
     </ViewFlipper>
 </android.support.constraint.ConstraintLayout>

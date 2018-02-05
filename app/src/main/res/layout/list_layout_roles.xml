@@ -14,8 +14,7 @@
         android:layout_weight="0.5"
         android:paddingBottom="@dimen/margin_4"
         android:paddingTop="@dimen/margin_4"
-        android:text="@string/published"
-        android:textColor="@android:color/white"/>
+        android:text="@string/published"/>
 
     <com.marvelousportal.base.BaseTextView
         android:id="@+id/tv_detail_role_name"
@@ -23,6 +22,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
         android:paddingBottom="@dimen/margin_4"
-        android:paddingTop="@dimen/margin_4"
-        android:textColor="@android:color/white"/>
+        android:paddingTop="@dimen/margin_4"/>
 </LinearLayout>

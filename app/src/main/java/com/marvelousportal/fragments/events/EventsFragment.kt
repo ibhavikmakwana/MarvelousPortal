@@ -65,6 +65,7 @@ class EventsFragment : BaseFragment() {
         /*charactersViewModel = CharactersViewModel(mContext)*/
         eventList = ArrayList()
         mAdapter = EventsAdapter(mContext, eventList!!)
+        search_events.clearFocus()
     }
 
     private fun setupRecyclerView() {

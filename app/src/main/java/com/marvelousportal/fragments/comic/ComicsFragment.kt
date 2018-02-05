@@ -61,6 +61,7 @@ class ComicsFragment : BaseFragment() {
         /*charactersViewModel = CharactersViewModel(mContext)*/
         comicsList = ArrayList()
         mAdapter = ComicsAdapter(mContext, comicsList!!)
+        search_comics.clearFocus()
         //inisalize view model factory
         /*viewModelFactory = Injection.provideViewModelFactory()
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CharactersViewModel::class.java)*/

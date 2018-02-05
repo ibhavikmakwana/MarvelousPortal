@@ -65,6 +65,7 @@ class SeriesFragment : BaseFragment() {
         /*charactersViewModel = CharactersViewModel(mContext)*/
         seriesList = ArrayList()
         mAdapter = SeriesAdapter(mContext, seriesList!!)
+        search_series.clearFocus()
     }
 
     private fun setupRecyclerView() {

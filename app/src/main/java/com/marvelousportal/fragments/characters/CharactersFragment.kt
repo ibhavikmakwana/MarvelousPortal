@@ -69,6 +69,7 @@ class CharactersFragment : BaseFragment() {
         characterList = ArrayList()
         searchCharacterList = ArrayList()
         mAdapter = CharactersAdapter(mContext, characterList!!)
+        search_character.clearFocus()
         //inisalize view model factory
         /*viewModelFactory = Injection.provideViewModelFactory()
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CharactersViewModel::class.java)*/

@@ -25,19 +25,18 @@
             android:name=".activities.MainActivity"
             android:label="@string/title_home"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateAlwaysHidden">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".activities.DetailActivity">
+        <activity
+            android:name=".activities.DetailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity
-            android:name=".activities.SearchResultActivity"
-            android:label=""
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-        <activity android:name=".activities.ZoomImageActivity">
+            android:name=".activities.ZoomImageActivity"
+            android:theme="@style/AppTheme.FullScreen">
         </activity>
     </application>
 
