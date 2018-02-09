@@ -27,26 +27,59 @@
             <android.support.v7.widget.SearchView
                 android:id="@+id/search_comics"
                 android:layout_width="match_parent"
-                app:queryHint="@string/search"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                app:iconifiedByDefault="false"/>
+                app:iconifiedByDefault="false"
+                app:queryHint="@string/search"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_comics"
                 android:layout_width="match_parent"
-                android:layout_below="@id/search_comics"
                 android:layout_height="match_parent"
-                android:layout_above="@id/tv_attribution_html"/>
+                android:layout_above="@id/tv_attribution_html"
+                android:layout_below="@id/search_comics"/>
 
             <com.marvelousportal.base.BaseTextView
                 android:id="@+id/tv_attribution_html"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:autoLink="web"
                 android:gravity="center"
-                android:layout_alignParentBottom="true"
                 android:padding="@dimen/margin_4"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.marvelousportal.base.BaseImageView
+                android:id="@+id/iv_search_comics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/sad_deadpool_no_result"/>
+
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_comics_try_again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/tv_comics_go_back"
+                android:gravity="center"
+                android:padding="@dimen/margin_4"
+                android:text="No comics found. You aren't getting second chance!"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/text_16"/>
+
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_comics_go_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:padding="@dimen/margin_4"
+                android:text="Go back! Don't click on me"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/text_16"/>
         </RelativeLayout>
     </ViewFlipper>
 </android.support.constraint.ConstraintLayout>

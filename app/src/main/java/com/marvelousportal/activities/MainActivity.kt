@@ -44,8 +44,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         nav_view.setNavigationItemSelectedListener(this)
 
         //Default Fragment for home
+        title = getString(R.string.characters)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.content_frame, CharactersFragment().newInstance())
+        ft.replace(R.id.content_frame, CharactersFragment())
         ft.commit()
     }
 
@@ -84,10 +85,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var fragment: Fragment? = null
         //initializing the fragment object which is selected
         when (itemId) {
-            R.id.nav_characters -> fragment = CharactersFragment()
-            R.id.nav_comics -> fragment = ComicsFragment()
-            R.id.nav_series -> fragment = SeriesFragment()
-            R.id.nav_events -> fragment = EventsFragment()
+            R.id.nav_characters -> {
+                fragment = CharactersFragment()
+                title = getString(R.string.characters)
+            }
+            R.id.nav_comics -> {
+                fragment = ComicsFragment()
+                title = getString(R.string.comics)
+            }
+            R.id.nav_series -> {
+                fragment = SeriesFragment()
+                title = getString(R.string.series)
+            }
+            R.id.nav_events -> {
+                fragment = EventsFragment()
+                title = getString(R.string.events)
+            }
         }
         //replacing the fragment
         if (fragment != null) {

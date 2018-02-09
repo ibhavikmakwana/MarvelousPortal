@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--<android.support.v4.widget.NestedScrollView
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nested_details"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black"
-    tools:context="com.marvelousportal.activities.DetailActivity">-->
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.marvelousportal.activities.DetailActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_250"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <com.marvelousportal.base.BaseImageView
+                android:id="@+id/iv_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:src="@mipmap/ic_launcher"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/ToolBarTheme.ToolBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.v4.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/nested_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ll_detail_footer">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/ll_main_detail"
@@ -30,13 +52,6 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
-
-            <!--image-->
-            <com.marvelousportal.base.BaseImageView
-                android:id="@+id/iv_detail_image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_250"
-                android:scaleType="centerCrop"/>
 
             <!--title or name-->
             <com.marvelousportal.base.BaseTextView
@@ -123,7 +138,7 @@
 
             <!--tile issues listing-->
             <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_detail_tile_issues"
+                android:id="@+id/tv_detail_tie_issues"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/margin_4"
@@ -134,7 +149,7 @@
                 android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_detail_tile_issues"
+                android:id="@+id/rv_detail_tie_issues"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/margin_16"
@@ -147,10 +162,10 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/margin_4"
                 android:paddingTop="@dimen/margin_4"
+                android:text="@string/characters_in_this_event"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_20"
                 android:textStyle="bold"
-                android:text="@string/characters_in_this_event"
                 android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
@@ -160,41 +175,42 @@
                 android:layout_marginBottom="@dimen/margin_16"
                 android:visibility="gone"/>
         </LinearLayout>
+
+        <!--FOOTER-->
+        <!--<LinearLayout
+            android:id="@+id/ll_detail_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_8"
+                android:text="@string/detail"
+                android:textSize="@dimen/text_16"
+                android:visibility="gone"/>
+
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_wiki"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_8"
+                android:text="@string/wiki"
+                android:textSize="@dimen/text_16"
+                android:visibility="gone"/>
+
+            <com.marvelousportal.base.BaseTextView
+                android:id="@+id/tv_comic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_8"
+                android:text="@string/comic"
+                android:textSize="@dimen/text_16"
+                android:visibility="gone"/>
+        </LinearLayout>-->
     </android.support.v4.widget.NestedScrollView>
-    <!--FOOTER-->
-    <LinearLayout
-        android:id="@+id/ll_detail_footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <com.marvelousportal.base.BaseTextView
-            android:id="@+id/tv_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_8"
-            android:text="@string/detail"
-            android:textSize="@dimen/text_16"
-            android:visibility="gone"/>
-
-        <com.marvelousportal.base.BaseTextView
-            android:id="@+id/tv_wiki"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_8"
-            android:text="@string/wiki"
-            android:textSize="@dimen/text_16"
-            android:visibility="gone"/>
-
-        <com.marvelousportal.base.BaseTextView
-            android:id="@+id/tv_comic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_8"
-            android:text="@string/comic"
-            android:textSize="@dimen/text_16"
-            android:visibility="gone"/>
-    </LinearLayout>
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
