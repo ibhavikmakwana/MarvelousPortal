@@ -10,21 +10,18 @@ import com.marvelousportal.R
 import com.marvelousportal.models.Item
 import kotlinx.android.synthetic.main.layout_list_items.view.*
 import java.util.*
-import java.util.regex.Pattern
-
-
 
 /**
  * Created by Bhavik Makwana on 1/30/2018.
  */
 
-class CharactersEventAdapter(context: Context, comics: List<Item>) : RecyclerView.Adapter<CharactersEventAdapter.ItemViewHolder>() {
+class DetailCharactersAdapter(context: Context, characters: List<Item>) : RecyclerView.Adapter<DetailCharactersAdapter.ItemViewHolder>() {
 
     private var mResult: List<Item>? = ArrayList()
     private var mContext: Context? = null
 
     init {
-        mResult = comics
+        mResult = characters
         mContext = context
 
     }
@@ -38,12 +35,6 @@ class CharactersEventAdapter(context: Context, comics: List<Item>) : RecyclerVie
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val resultInfo = mResult?.get(position)
         holder.charName.text = resultInfo?.name
-        val id = resultInfo?.resourceURI
-        holder.charName.setOnClickListener {
-            /*val lastWord = id?.substring(id.lastIndexOf(" "))*/
-            /*Log.i("ID", lastWord(id!!))*/
-            /*DetailActivity.launchActivity(mContext!!, lastWord?.toInt()!!, Constant.CHARACTERS)*/
-        }
     }
 
     override fun getItemCount(): Int {
@@ -57,13 +48,5 @@ class CharactersEventAdapter(context: Context, comics: List<Item>) : RecyclerVie
     fun setUserList(character: List<Item>?) {
         mResult = character
         notifyDataSetChanged()
-    }
-
-    private fun lastWord(sentence: String): String {
-        val p = Pattern.compile("([\\p{Alpha}]+)(?=\\p{Punct}*$)")
-        val m = p.matcher(sentence)
-        return if (m.find()) {
-            m.group()
-        } else ""
     }
 }

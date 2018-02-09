@@ -17,9 +17,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.marvelousportal.R
-import com.marvelousportal.activities.adapter.CharactersEventAdapter
-import com.marvelousportal.activities.adapter.CoreComicsAdapter
-import com.marvelousportal.activities.adapter.TilesComicsAdapter
+import com.marvelousportal.activities.adapter.DetailComicAdapter
+import com.marvelousportal.activities.adapter.DetailEventAdapter
+import com.marvelousportal.activities.adapter.DetailSeriesAdapter
 import com.marvelousportal.app.AppController
 import com.marvelousportal.base.BaseActivity
 import com.marvelousportal.models.Item
@@ -40,14 +40,17 @@ import java.util.*
 class DetailActivity : BaseActivity() {
 
     var bitmapImage: Bitmap? = null
-    private var mTileIssueAdapter: TilesComicsAdapter? = null
-    private var tileIssueList: MutableList<Item>? = null
+    private var mDetailComicAdapter: DetailComicAdapter? = null
+    private var comicsIssueList: MutableList<Item>? = null
 
-    private var mCoreComicsAdapter: CoreComicsAdapter? = null
-    private var coreIssueList: MutableList<Item>? = null
+    private var mDetailSeriesAdapter: DetailSeriesAdapter? = null
+    private var seriesIssueList: MutableList<Item>? = null
 
-    private var mCharactersEventAdapter: CharactersEventAdapter? = null
-    private var characterEventList: MutableList<Item>? = null
+    private var mDetailEventAdapter: DetailEventAdapter? = null
+    private var eventIssueList: MutableList<Item>? = null
+
+
+    private var charactersIssueList: MutableList<Item>? = null
 
     private val detailViewModel = AppController.injectDetailViewModel()
 
@@ -80,12 +83,12 @@ class DetailActivity : BaseActivity() {
      * initialize the app
      */
     private fun init() {
-        tileIssueList = ArrayList()
-        coreIssueList = ArrayList()
-        characterEventList = ArrayList()
-        mTileIssueAdapter = TilesComicsAdapter(this, tileIssueList!!)
-        mCoreComicsAdapter = CoreComicsAdapter(this, coreIssueList!!)
-        mCharactersEventAdapter = CharactersEventAdapter(this, characterEventList!!)
+        comicsIssueList = ArrayList()
+        seriesIssueList = ArrayList()
+        eventIssueList = ArrayList()
+        mDetailComicAdapter = DetailComicAdapter(this, comicsIssueList!!)
+        mDetailSeriesAdapter = DetailSeriesAdapter(this, seriesIssueList!!)
+        mDetailEventAdapter = DetailEventAdapter(this, eventIssueList!!)
 
         val id = intent.getIntExtra(ID, 0)
         if (id > 0) {
@@ -192,19 +195,6 @@ class DetailActivity : BaseActivity() {
                 tv_end_date.text = getFormattedDate(details.end)
             }
 
-            //set name or title
-            if (!details.name.isNullOrEmpty()) {
-                tv_details_title.text = details.name
-                tv_detail_tie_issues.text = details.name + getString(R.string.in_issue)
-                tv_detail_core_issues.text = details.name + getString(R.string.core_issues)
-                supportActionBar!!.title = details.name
-            } else {
-                tv_details_title.text = details.title
-                tv_detail_tie_issues.text = details.title + getString(R.string.in_issue)
-                tv_detail_core_issues.text = details.title + getString(R.string.core_issues)
-                supportActionBar!!.title = details.title
-            }
-
             if (!details.description.isNullOrEmpty()) {
                 tv_detail_description.visibility = View.VISIBLE
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -213,22 +203,15 @@ class DetailActivity : BaseActivity() {
                     tv_detail_description.text = Html.fromHtml(details.description)
                 }
             } else {
-                tv_detail_description.visibility = View.GONE
+                tv_detail_description.text = getString(R.string.description_not_available)
             }
 
-            //set roles
-            /*if (details.creators != null) {
-                //manage visibility
-                ll_detail_role.visibility = View.VISIBLE
-                for (roles in details.creators.items) {
-                    // creating TextView programmatically
-                    val tvDynamic = BaseTextView(this)
-                    tvDynamic.setPadding(0, 4, 0, 4)
-                    tvDynamic.text = roles.role + ":" + roles.name
-                    // add TextView to LinearLayout
-                    ll_detail_role.addView(tvDynamic)
-                }
-            }*/
+            //set name or title
+            if (!details.name.isNullOrEmpty()) {
+                toolbar_layout.title = details.name
+            } else {
+                toolbar_layout.title = details.title
+            }
 
             /*for (url in details.urls) {
                 if (url.type == "detail") {
@@ -252,53 +235,61 @@ class DetailActivity : BaseActivity() {
             }*/
 
             //set up the comics listing
-            setUpTileInIssues(details.comics.items)
-            setUpCoreIssue(details.series.items)
-            /*if (details.characters.items!=null) {
-                setUpCharacterInEvents(details.characters.items)
-            }*/
-            tileIssueList?.addAll(details.comics.items)
-            coreIssueList?.addAll(details.series.items)
+            if (details.comics != null) {
+                comicsIssueList?.addAll(details.comics.items)
+            }
+            if (details.series != null) {
+                seriesIssueList?.addAll(details.series.items)
+            }
+            if (details.events != null) {
+                eventIssueList?.addAll(details.events.items)
+            }
+            if (details.characters != null) {
+                charactersIssueList?.addAll(details.characters.items)
+            }
 
+            setUpDetailComics(comicsIssueList!!)
+            setUpDetailSeries(seriesIssueList!!)
+            setUpDetailEvents(eventIssueList!!)
         }
     }
 
-    private fun setUpCharacterInEvents(item: List<Item>) {
+    private fun setUpDetailEvents(item: List<Item>) {
         if (item.isNotEmpty()) {
-            rv_detail_characters_event.isNestedScrollingEnabled = false
-            rv_detail_characters_event.visibility = View.VISIBLE
-            tv_detail_characters_event.visibility = View.VISIBLE
+            rv_detail_event.isNestedScrollingEnabled = false
+            rv_detail_event.visibility = View.VISIBLE
+            tv_detail_event.visibility = View.VISIBLE
 
-            val layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            rv_detail_characters_event.layoutManager = layoutManager
-            rv_detail_characters_event.adapter = mCharactersEventAdapter
-            mCharactersEventAdapter?.setUserList(item)
+            val layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+            rv_detail_event.layoutManager = layoutManager
+            rv_detail_event.adapter = mDetailEventAdapter
+            mDetailEventAdapter?.setUserList(item)
         }
     }
 
-    private fun setUpCoreIssue(item: List<Item>) {
+    private fun setUpDetailSeries(item: List<Item>) {
         if (item.isNotEmpty()) {
-            rv_detail_core_issues.isNestedScrollingEnabled = false
-            rv_detail_core_issues.visibility = View.VISIBLE
-            tv_detail_core_issues.visibility = View.VISIBLE
+            rv_detail_series.isNestedScrollingEnabled = false
+            rv_detail_series.visibility = View.VISIBLE
+            tv_detail_series.visibility = View.VISIBLE
 
-            val layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            rv_detail_core_issues.layoutManager = layoutManager
-            rv_detail_core_issues.adapter = mCoreComicsAdapter
-            mCoreComicsAdapter?.setUserList(item)
+            val layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+            rv_detail_series.layoutManager = layoutManager
+            rv_detail_series.adapter = mDetailSeriesAdapter
+            mDetailSeriesAdapter?.setUserList(item)
         }
     }
 
-    private fun setUpTileInIssues(item: List<Item>) {
+    private fun setUpDetailComics(item: List<Item>) {
         if (item.isNotEmpty()) {
-            rv_detail_tie_issues.isNestedScrollingEnabled = false
-            rv_detail_tie_issues.visibility = View.VISIBLE
-            tv_detail_tie_issues.visibility = View.VISIBLE
+            rv_detail_comics.isNestedScrollingEnabled = false
+            rv_detail_comics.visibility = View.VISIBLE
+            tv_detail_comics.visibility = View.VISIBLE
 
-            val layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            rv_detail_tie_issues.layoutManager = layoutManager
-            rv_detail_tie_issues.adapter = mTileIssueAdapter
-            mTileIssueAdapter?.setUserList(item)
+            val layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+            rv_detail_comics.layoutManager = layoutManager
+            rv_detail_comics.adapter = mDetailComicAdapter
+            mDetailComicAdapter?.setUserList(item)
         }
     }
 

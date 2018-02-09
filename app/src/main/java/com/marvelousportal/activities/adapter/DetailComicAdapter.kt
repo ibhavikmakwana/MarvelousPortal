@@ -15,7 +15,7 @@ import java.util.*
  * Created by Bhavik Makwana on 1/30/2018.
  */
 
-class TilesComicsAdapter(context: Context, comics: List<Item>) : RecyclerView.Adapter<TilesComicsAdapter.ItemViewHolder>() {
+class DetailComicAdapter(context: Context, comics: List<Item>) : RecyclerView.Adapter<DetailComicAdapter.ItemViewHolder>() {
 
     private var mResult: List<Item>? = ArrayList()
     private var mContext: Context? = null
