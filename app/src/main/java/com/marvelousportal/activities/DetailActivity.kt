@@ -213,7 +213,7 @@ class DetailActivity : BaseActivity() {
                 toolbar_layout.title = details.title
             }
 
-            /*for (url in details.urls) {
+            for (url in details.urls) {
                 if (url.type == "detail") {
                     tv_detail.visibility = View.VISIBLE
                     tv_detail.setOnClickListener {
@@ -232,7 +232,7 @@ class DetailActivity : BaseActivity() {
                         openWebUrls(url.url)
                     }
                 }
-            }*/
+            }
 
             //set up the comics listing
             if (details.comics != null) {

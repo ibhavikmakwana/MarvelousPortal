@@ -168,43 +168,58 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/margin_16"
                 android:visibility="gone"/>
+
+            <!--FOOTER-->
+            <LinearLayout
+                android:id="@+id/ll_detail_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_8"
+                    android:text="@string/detail"
+                    android:textSize="@dimen/text_16"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_wiki"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_8"
+                    android:text="@string/wiki"
+                    android:textSize="@dimen/text_16"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_comic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_8"
+                    android:text="@string/comic"
+                    android:textSize="@dimen/text_16"
+                    android:visibility="gone"/>
+            </LinearLayout>
         </LinearLayout>
-
-        <!--FOOTER-->
-        <!--<LinearLayout
-            android:id="@+id/ll_detail_footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_8"
-                android:text="@string/detail"
-                android:textSize="@dimen/text_16"
-                android:visibility="gone"/>
-
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_wiki"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_8"
-                android:text="@string/wiki"
-                android:textSize="@dimen/text_16"
-                android:visibility="gone"/>
-
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_comic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_8"
-                android:text="@string/comic"
-                android:textSize="@dimen/text_16"
-                android:visibility="gone"/>
-        </LinearLayout>-->
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
