@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:background="@drawable/border"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_4"
+    app:cardCornerRadius="@dimen/radius_5"
+    app:cardElevation="@dimen/margin_4">
 
-    <com.marvelousportal.base.BaseTextView
-        android:id="@+id/tv_list_name_title"
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:id="@+id/row_root_list"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_16"
-        android:layout_marginEnd="@dimen/text_16"
-        android:layout_marginStart="@dimen/text_16"
-        android:layout_marginTop="@dimen/text_16"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-</android.support.constraint.ConstraintLayout>
+        android:orientation="vertical">
+
+        <com.marvelousportal.base.BaseImageView
+            android:id="@+id/iv_list_name_image"
+            android:layout_width="@dimen/image_h_w"
+            android:layout_height="@dimen/image_h_w"
+            android:background="@color/colorAccent"
+            android:scaleType="centerCrop"/>
+
+        <com.marvelousportal.base.BaseTextView
+            android:id="@+id/tv_list_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/iv_list_name_image"
+            android:layout_alignLeft="@id/iv_list_name_image"
+            android:layout_alignRight="@id/iv_list_name_image"
+            android:layout_alignStart="@id/iv_list_name_image"
+            android:layout_below="@id/iv_list_name_image"
+            android:maxLines="2"
+            android:padding="@dimen/margin_8"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:text="IronMan: Invincible"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

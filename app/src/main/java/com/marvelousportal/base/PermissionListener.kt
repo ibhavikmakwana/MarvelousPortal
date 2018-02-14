@@ -1,12 +1,12 @@
-package com.marvelousportal.base;
+package com.marvelousportal.base
 
 /**
  * This is the permission listener which is used to communicate with the activity to show the response.
  */
-public interface PermissionListener {
+interface PermissionListener {
     //it is called when permission granted.
-    void onPermissionGranted();
+    fun onPermissionGranted()
 
     //it is called when user denies for the permission.
-    void onPermissionDenied();
+    fun onPermissionDenied()
 }

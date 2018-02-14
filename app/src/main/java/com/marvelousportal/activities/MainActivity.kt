@@ -44,8 +44,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         nav_view.setNavigationItemSelectedListener(this)
 
         //Default Fragment for home
+        title = getString(R.string.characters)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.content_frame, CharactersFragment().newInstance())
+        ft.replace(R.id.content_frame, CharactersFragment())
         ft.commit()
     }
 
@@ -68,7 +69,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_about_us -> true
+            R.id.action_about_us -> {
+                AboutUsActivity.launchActivity(this@MainActivity)
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -84,10 +88,30 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var fragment: Fragment? = null
         //initializing the fragment object which is selected
         when (itemId) {
-            R.id.nav_characters -> fragment = CharactersFragment()
-            R.id.nav_comics -> fragment = ComicsFragment()
-            R.id.nav_series -> fragment = SeriesFragment()
-            R.id.nav_events -> fragment = EventsFragment()
+            R.id.nav_characters -> {
+                fragment = CharactersFragment()
+                title = getString(R.string.characters)
+            }
+            R.id.nav_comics -> {
+                fragment = ComicsFragment()
+                title = getString(R.string.comics)
+            }
+            R.id.nav_series -> {
+                fragment = SeriesFragment()
+                title = getString(R.string.series)
+            }
+            R.id.nav_events -> {
+                fragment = EventsFragment()
+                title = getString(R.string.events)
+            }
+            R.id.nav_share -> {
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        "Hey check out my marvel app at: https://drive.google.com/file/d/14tbMzavz30DG6BQ1Xzx_0wih2jowvZcF/view?usp=sharing")
+                sendIntent.type = "text/plain"
+                startActivity(sendIntent)
+            }
         }
         //replacing the fragment
         if (fragment != null) {

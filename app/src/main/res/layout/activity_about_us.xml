@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.marvelousportal.activities.AboutUsActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_app_version"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.marvelousportal.base.BaseTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="@dimen/margin_4"
+            android:text="@string/app_version"/>
+
+        <com.marvelousportal.base.BaseTextView
+            android:id="@+id/tv_version"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="@dimen/margin_4"
+            tools:text="1.0.0"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/margin_1dp"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_app_version"/>
+
+    <LinearLayout
+        android:id="@+id/ll_powered_by"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+        <com.marvelousportal.base.BaseTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="@dimen/margin_4"
+            android:text="@string/powered_by"/>
+
+        <com.marvelousportal.base.BaseTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="@dimen/margin_4"
+            android:text="@string/data_provided_by_marvel_2018_marvel"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/margin_1dp"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_powered_by"/>
+
+    <LinearLayout
+        android:id="@+id/ll_copyright"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view1">
+
+        <com.marvelousportal.base.BaseTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="@dimen/margin_4"
+            android:text="@string/copyright"/>
+
+        <com.marvelousportal.base.BaseTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="@dimen/margin_4"
+            android:text="@string/_2018_marvel"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/margin_1dp"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_copyright"/>
+
+    <com.marvelousportal.base.BaseTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        tools:text="daefrwgrvbnjewlkg"/>
+</android.support.constraint.ConstraintLayout>

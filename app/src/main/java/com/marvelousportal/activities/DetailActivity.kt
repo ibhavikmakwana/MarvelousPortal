@@ -4,12 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.util.Log
@@ -20,20 +17,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.marvelousportal.R
-import com.marvelousportal.activities.adapter.CharactersEventAdapter
-import com.marvelousportal.activities.adapter.CoreComicsAdapter
-import com.marvelousportal.activities.adapter.TilesComicsAdapter
+import com.marvelousportal.activities.adapter.DetailCharactersAdapter
+import com.marvelousportal.activities.adapter.DetailComicAdapter
+import com.marvelousportal.activities.adapter.DetailEventAdapter
+import com.marvelousportal.activities.adapter.DetailSeriesAdapter
 import com.marvelousportal.app.AppController
 import com.marvelousportal.base.BaseActivity
-import com.marvelousportal.models.Item
 import com.marvelousportal.models.Result
-import com.marvelousportal.utils.ActivityUtils
-import com.marvelousportal.utils.Constant
 import com.marvelousportal.utils.Constant.Companion.CHARACTERS
 import com.marvelousportal.utils.Constant.Companion.COMICS
 import com.marvelousportal.utils.Constant.Companion.EVENTS
 import com.marvelousportal.utils.Constant.Companion.SERIES
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 import java.io.ByteArrayOutputStream
 import java.text.ParseException
@@ -45,14 +41,19 @@ import kotlin.collections.ArrayList
 class DetailActivity : BaseActivity() {
 
     var bitmapImage: Bitmap? = null
-    private var mTileIssueAdapter: TilesComicsAdapter? = null
-    private var tileIssueList: MutableList<Item>? = null
+    private var mDetailComicAdapter: DetailComicAdapter? = null
+    private var comicsIssueList: MutableList<Result>? = null
 
-    private var mCoreComicsAdapter: CoreComicsAdapter? = null
-    private var coreIssueList: MutableList<Item>? = null
+    private var mDetailSeriesAdapter: DetailSeriesAdapter? = null
+    private var seriesIssueList: MutableList<Result>? = null
 
-    private var mCharactersEventAdapter: CharactersEventAdapter? = null
-    private var characterEventList: MutableList<Item>? = null
+    private var mDetailEventAdapter: DetailEventAdapter? = null
+    private var eventIssueList: MutableList<Result>? = null
+
+    private var mDetailCharactersAdapter: DetailCharactersAdapter? = null
+    private var charactersIssueList: MutableList<Result>? = null
+
+    private val detailViewModel = AppController.injectDetailViewModel()
 
     companion object {
         const val ID = "ID"
@@ -73,6 +74,9 @@ class DetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        setSupportActionBar(toolbar)
+        //noinspection ConstantConditions
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         init()
     }
 
@@ -80,49 +84,22 @@ class DetailActivity : BaseActivity() {
      * initialize the app
      */
     private fun init() {
+        comicsIssueList = ArrayList()
+        seriesIssueList = ArrayList()
+        eventIssueList = ArrayList()
+        charactersIssueList = ArrayList()
+
+        mDetailComicAdapter = DetailComicAdapter(this, comicsIssueList!!)
+        mDetailSeriesAdapter = DetailSeriesAdapter(this, seriesIssueList!!)
+        mDetailEventAdapter = DetailEventAdapter(this, eventIssueList!!)
+        mDetailCharactersAdapter = DetailCharactersAdapter(this, charactersIssueList!!)
+
         val id = intent.getIntExtra(ID, 0)
         if (id > 0) {
             checkForType(id)
         }
-
-        tileIssueList = ArrayList()
-        coreIssueList = ArrayList()
-        characterEventList = ArrayList()
-        mTileIssueAdapter = TilesComicsAdapter(this, tileIssueList!!)
-        mCoreComicsAdapter = CoreComicsAdapter(this, coreIssueList!!)
-        mCharactersEventAdapter = CharactersEventAdapter(this, characterEventList!!)
-
-        //nested scroll view listener to change the color of toolbar and status bar according to image and scroll
-        nested_details.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (scrollY > oldScrollY) {
-                //scroll down
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val actionBar = supportActionBar
-                    val colorDrawable = ColorDrawable(getDominantColor(this.bitmapImage!!))
-                    actionBar!!.setBackgroundDrawable(colorDrawable)
-                    window.statusBarColor = colorDrawable.color
-                }
-            }
-            if (scrollY < oldScrollY) {
-                //scroll up
-            }
-
-            if (scrollY == 0) {
-                //scroll top
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityUtils.setActionBarColor(this, R.color.colorPrimary)
-                    window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-                }
-            }
-
-            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
-                //scroll bottom
-            }
-        })
-
         //image click listener for zoom
         iv_detail_image.setOnClickListener {
-
             val stream = ByteArrayOutputStream()
             bitmapImage?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             val bytes = stream.toByteArray()
@@ -143,115 +120,30 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun characterDetails(id: Int) {
-        val appController = AppController.create(this)
-        val usersService = appController.apiService
-        val timeStamp = getTimestamp()
-        val disposable = usersService?.fetchCharacterDetail(id,
-                timeStamp,
-                Constant.PUBLIC_KEY,
-                getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
-            setUpDetail(userResponse.data.results)
+        detail_view_flipper.displayedChild = 0
+        subscribe(detailViewModel.getCharactersDetail(id)?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+            setUpDetail(it.data!!.results)
+            detail_view_flipper.displayedChild = 1
         }, {
+            Log.w("throws", it.localizedMessage)
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            Log.i("error", it.message)
-        })
-        addSubscription(disposable)
+            detail_view_flipper.displayedChild = 1
+        })!!)
     }
 
     private fun comicDetails(id: Int) {
-        val appController = AppController.create(this)
-        val usersService = appController.apiService
-        val timeStamp = getTimestamp()
-        val disposable = usersService?.fetchComicsDetail(id,
-                timeStamp,
-                Constant.PUBLIC_KEY,
-                getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
-            setUpDetail(userResponse.data.results)
+        detail_view_flipper.displayedChild = 0
+        subscribe(detailViewModel.getComicsDetail(id)?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+            setUpDetail(it.data!!.results)
+            detail_view_flipper.displayedChild = 1
         }, {
+            Log.w("throws", it.localizedMessage)
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            Log.i("error", it.message)
-        })
-        addSubscription(disposable)
+            detail_view_flipper.displayedChild = 1
+        })!!)
     }
-
-    /**
-     * set up the details of the character
-     *//*
-    private fun setUpCharacterDetail(results: List<Result>) {
-        for (details in results) {
-            //manage visibility
-            ll_detail_published.visibility = View.GONE
-            ll_detail_role.visibility = View.GONE
-
-            val imageUrl = details.thumbnail.path + "." + details.thumbnail.extension
-            *//*Glide.with(this).load(imageUrl).into(iv_detail_image)*//*
-            Glide.with(this)
-                    .asBitmap()
-                    .load(imageUrl)
-                    .into(object : SimpleTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
-                            iv_detail_image.setImageBitmap(resource)
-                            bitmapImage = resource
-                        }
-                    })
-            tv_details_title.text = details.name
-            if (details.description != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    tv_detail_description.text = Html.fromHtml(details.description, Html.FROM_HTML_MODE_LEGACY)
-                } else {
-                    tv_detail_description.text = Html.fromHtml(details.description)
-                }
-            }
-        }
-    }
-
-    */
-    /**
-     * set up the details of the character
-     *//*
-    @SuppressLint("SetTextI18n")
-    private fun setUpComicDetail(results: List<Result>) {
-        for (details in results) {
-            //manage visibility
-            ll_detail_published.visibility = View.VISIBLE
-            ll_detail_role.visibility = View.VISIBLE
-
-            val imageUrl = details.thumbnail.path + "." + details.thumbnail.extension
-            *//*Glide.with(this).load(imageUrl).into(iv_detail_image)*//*
-
-            Glide.with(this)
-                    .asBitmap()
-                    .load(imageUrl)
-                    .into(object : SimpleTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
-                            iv_detail_image.setImageBitmap(resource)
-                            bitmapImage = resource
-                        }
-                    })
-
-            tv_details_title.text = details.title
-            tv_detail_published.text = getFormattedDate(details.dates[0].date)
-
-            if (details.description != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    tv_detail_description.text = Html.fromHtml(details.description, Html.FROM_HTML_MODE_LEGACY)
-                } else {
-                    tv_detail_description.text = Html.fromHtml(details.description)
-                }
-            }
-
-            //set roles
-            for (roles in details.creators.items) {
-                // creating TextView programmatically
-                val tvDynamic = BaseTextView(this)
-                tvDynamic.setTextColor(ContextCompat.getColor(this, android.R.color.white))
-                tvDynamic.setPadding(0, 4, 0, 4)
-                tvDynamic.text = roles.role + ":" + roles.name
-                // add TextView to LinearLayout
-                ll_detail_role.addView(tvDynamic)
-            }
-        }
-    }*/
 
     /**
      * get the formatted date
@@ -270,35 +162,29 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun seriesDetails(id: Int) {
-        val appController = AppController.create(this)
-        val usersService = appController.apiService
-        val timeStamp = getTimestamp()
-        val disposable = usersService?.fetchSeriesDetail(id,
-                timeStamp,
-                Constant.PUBLIC_KEY,
-                getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
-            setUpDetail(userResponse.data.results)
+        detail_view_flipper.displayedChild = 0
+        subscribe(detailViewModel.getSeriesDetail(id)?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+            setUpDetail(it.data!!.results)
+            detail_view_flipper.displayedChild = 1
         }, {
+            Log.w("throws", it.localizedMessage)
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            Log.i("error", it.message)
-        })
-        addSubscription(disposable)
+            detail_view_flipper.displayedChild = 1
+        })!!)
     }
 
     private fun eventsDetails(id: Int) {
-        val appController = AppController.create(this)
-        val usersService = appController.apiService
-        val timeStamp = getTimestamp()
-        val disposable = usersService?.fetchEventsDetail(id,
-                timeStamp,
-                Constant.PUBLIC_KEY,
-                getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
-            setUpDetail(userResponse.data.results)
+        detail_view_flipper.displayedChild = 0
+        subscribe(detailViewModel.getEventDetail(id)?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+            setUpDetail(it.data!!.results)
+            detail_view_flipper.displayedChild = 1
         }, {
+            Log.w("throws", it.localizedMessage)
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            Log.i("error", it.message)
-        })
-        addSubscription(disposable)
+            detail_view_flipper.displayedChild = 1
+        })!!)
     }
 
     /**
@@ -308,7 +194,7 @@ class DetailActivity : BaseActivity() {
     private fun setUpDetail(results: List<Result>) {
         for (details in results) {
             val imageUrl = details.thumbnail.path + "." + details.thumbnail.extension
-            /*Glide.with(this).load(imageUrl).into(iv_detail_image)*/
+
             Glide.with(this)
                     .asBitmap()
                     .load(imageUrl)
@@ -325,24 +211,6 @@ class DetailActivity : BaseActivity() {
                 tv_end_date.text = getFormattedDate(details.end)
             }
 
-            //set name or title
-            if (details.name != null) {
-                tv_details_title.text = details.name
-                tv_detail_tile_issues.text = details.name + getString(R.string.in_issue)
-                tv_detail_core_issues.text = details.name + getString(R.string.core_issues)
-                title = details.name
-            } else {
-                tv_details_title.text = details.title
-                tv_detail_tile_issues.text = details.title + getString(R.string.in_issue)
-                tv_detail_core_issues.text = details.title + getString(R.string.core_issues)
-                title = details.title
-            }
-
-            //set published date
-            /*if (details.dates[0].date.isNullOrEmpty()) {
-                tv_detail_published.text = getFormattedDate(details.dates[0].date)
-            }*/
-
             if (!details.description.isNullOrEmpty()) {
                 tv_detail_description.visibility = View.VISIBLE
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -351,22 +219,15 @@ class DetailActivity : BaseActivity() {
                     tv_detail_description.text = Html.fromHtml(details.description)
                 }
             } else {
-                tv_detail_description.visibility = View.GONE
+                tv_detail_description.text = getString(R.string.description_not_available)
             }
 
-            //set roles
-            /*if (details.creators != null) {
-                //manage visibility
-                ll_detail_role.visibility = View.VISIBLE
-                for (roles in details.creators.items) {
-                    // creating TextView programmatically
-                    val tvDynamic = BaseTextView(this)
-                    tvDynamic.setPadding(0, 4, 0, 4)
-                    tvDynamic.text = roles.role + ":" + roles.name
-                    // add TextView to LinearLayout
-                    ll_detail_role.addView(tvDynamic)
-                }
-            }*/
+            //set name or title
+            if (!details.name.isNullOrEmpty()) {
+                toolbar_layout.title = details.name
+            } else {
+                toolbar_layout.title = details.title
+            }
 
             for (url in details.urls) {
                 if (url.type == "detail") {
@@ -389,52 +250,110 @@ class DetailActivity : BaseActivity() {
                 }
             }
 
+            val resourceUri = results[0].resourceURI
+
             //set up the comics listing
-            setUpTileInIssues(details.comics.items)
-            setUpCoreIssue(details.series.items)
-            setUpCharacterInEvents(details.characters.items)
-            tileIssueList?.addAll(details.comics.items)
-            coreIssueList?.addAll(details.series.items)
-
+            if (details.comics != null) {
+                subscribe(detailViewModel.getListItems(resourceUri + "/comics")?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                    Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+                    if (it.data?.results != null) {
+                        comicsIssueList?.addAll(it.data.results)
+                        setUpDetailComics(comicsIssueList!!)
+                    }
+                }, {
+                    Log.w("throws", it.localizedMessage)
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                })!!)
+            }
+            if (details.series != null) {
+                subscribe(detailViewModel.getListItems(resourceUri + "/series")?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                    Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+                    if (it.data?.results != null) {
+                        seriesIssueList?.addAll(it.data.results)
+                        setUpDetailSeries(seriesIssueList!!)
+                    }
+                }, {
+                    Log.w("throws", it.localizedMessage)
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                })!!)
+            }
+            if (details.events != null) {
+                subscribe(detailViewModel.getListItems(resourceUri + "/events")?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                    Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+                    if (it.data?.results != null) {
+                        eventIssueList?.addAll(it.data.results)
+                        setUpDetailEvents(eventIssueList!!)
+                    }
+                }, {
+                    Log.w("throws", it.localizedMessage)
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                })!!)
+            }
+            if (details.characters != null) {
+                subscribe(detailViewModel.getListItems(resourceUri + "/characters")?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                    Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+                    if (it.data?.results != null) {
+                        charactersIssueList?.addAll(it.data.results)
+                        setUpDetailCharacters(charactersIssueList!!)
+                    }
+                }, {
+                    Log.w("throws", it.localizedMessage)
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                })!!)
+            }
         }
     }
 
-    private fun setUpCharacterInEvents(item: List<Item>) {
-        if (item.isNotEmpty()) {
-            rv_detail_characters_event.isNestedScrollingEnabled = false
-            rv_detail_characters_event.visibility = View.VISIBLE
-            tv_detail_characters_event.visibility = View.VISIBLE
+    private fun setUpDetailCharacters(charactersIssueList: MutableList<Result>) {
+        if (charactersIssueList.isNotEmpty()) {
+            rv_detail_character.isNestedScrollingEnabled = false
+            rv_detail_character.visibility = View.VISIBLE
+            tv_detail_character.visibility = View.VISIBLE
 
-            val layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            rv_detail_characters_event.layoutManager = layoutManager
-            rv_detail_characters_event.adapter = mCharactersEventAdapter
-            mCharactersEventAdapter?.setUserList(item)
+            val layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+            rv_detail_character.layoutManager = layoutManager
+            rv_detail_character.adapter = mDetailCharactersAdapter
+            mDetailCharactersAdapter?.setUserList(charactersIssueList)
         }
     }
 
-    private fun setUpCoreIssue(item: List<Item>) {
+    private fun setUpDetailEvents(item: List<Result>) {
         if (item.isNotEmpty()) {
-            rv_detail_core_issues.isNestedScrollingEnabled = false
-            rv_detail_core_issues.visibility = View.VISIBLE
-            tv_detail_core_issues.visibility = View.VISIBLE
+            rv_detail_event.isNestedScrollingEnabled = false
+            rv_detail_event.visibility = View.VISIBLE
+            tv_detail_event.visibility = View.VISIBLE
 
-            val layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            rv_detail_core_issues.layoutManager = layoutManager
-            rv_detail_core_issues.adapter = mCoreComicsAdapter
-            mCoreComicsAdapter?.setUserList(item)
+            val layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+            rv_detail_event.layoutManager = layoutManager
+            rv_detail_event.adapter = mDetailEventAdapter
+            mDetailEventAdapter?.setUserList(item)
         }
     }
 
-    private fun setUpTileInIssues(item: List<Item>) {
+    private fun setUpDetailSeries(item: List<Result>) {
         if (item.isNotEmpty()) {
-            rv_detail_tile_issues.isNestedScrollingEnabled = false
-            rv_detail_tile_issues.visibility = View.VISIBLE
-            tv_detail_tile_issues.visibility = View.VISIBLE
+            rv_detail_series.isNestedScrollingEnabled = false
+            rv_detail_series.visibility = View.VISIBLE
+            tv_detail_series.visibility = View.VISIBLE
 
-            val layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            rv_detail_tile_issues.layoutManager = layoutManager
-            rv_detail_tile_issues.adapter = mTileIssueAdapter
-            mTileIssueAdapter?.setUserList(item)
+
+            val layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+            rv_detail_series.layoutManager = layoutManager
+            rv_detail_series.adapter = mDetailSeriesAdapter
+            mDetailSeriesAdapter?.setUserList(item)
+        }
+    }
+
+    private fun setUpDetailComics(item: List<Result>) {
+        if (item.isNotEmpty()) {
+            rv_detail_comics.isNestedScrollingEnabled = false
+            rv_detail_comics.visibility = View.VISIBLE
+            tv_detail_comics.visibility = View.VISIBLE
+
+            val layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+            rv_detail_comics.layoutManager = layoutManager
+            rv_detail_comics.adapter = mDetailComicAdapter
+            mDetailComicAdapter?.setUserList(item)
         }
     }
 

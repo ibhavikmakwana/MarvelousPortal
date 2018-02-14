@@ -18,7 +18,6 @@ package com.marvelousportal.base
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.support.annotation.LayoutRes
 import android.support.annotation.NonNull
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
@@ -28,7 +27,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import com.marvelousportal.utils.Constant
+import com.marvelousportal.R
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import java.security.MessageDigest
@@ -42,7 +41,7 @@ open class BaseActivity : AppCompatActivity() {
     private val REQ_CODE_PERMISSION = 1
     private var mPermissionListener: PermissionListener? = null
 
-    val disposables = CompositeDisposable()
+    private val mCompositeDisposable = CompositeDisposable()
     protected var isNetworkCallRunning = false
 
     protected fun networkingCallRunning() {
@@ -53,9 +52,7 @@ open class BaseActivity : AppCompatActivity() {
         isNetworkCallRunning = false
     }
 
-    override fun setContentView(@LayoutRes layoutResID: Int) {
-        super.setContentView(layoutResID)
-    }
+    private fun dispose() = mCompositeDisposable.dispose()
 
     /**
      * Set the toolbar of the activity.
@@ -133,19 +130,9 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Add the subscription to the [CompositeDisposable].
-
-     * @param disposable [Disposable]
-     */
-    fun addSubscription(disposable: Disposable?) {
-        if (disposable == null) return
-        disposables.add(disposable)
-    }
-
     public override fun onDestroy() {
         super.onDestroy()
-        disposables.dispose()
+        dispose()
     }
 
     fun showSnackbar(@StringRes message: Int,
@@ -169,7 +156,7 @@ open class BaseActivity : AppCompatActivity() {
     fun requestPermission(@NonNull permission: Array<String>, @NonNull permissionListener: PermissionListener) {
         mPermissionListener = permissionListener
         if (ContextCompat.checkSelfPermission(this,
-                permission[0]) != PackageManager.PERMISSION_GRANTED) {
+                        permission[0]) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     permission,
                     REQ_CODE_PERMISSION)
@@ -204,7 +191,7 @@ open class BaseActivity : AppCompatActivity() {
 
     fun getHash(timeStamp: String): String {
         try {
-            val hashString = timeStamp + Constant.PRIVATE_KEY + Constant.PUBLIC_KEY
+            val hashString = timeStamp + getString(R.string.private_key) + getString(R.string.public_key)
             val md = MessageDigest.getInstance("MD5")
             md.update(hashString.toByteArray())
             val byteData = md.digest()
@@ -229,5 +216,15 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         return ""
+    }
+
+    fun subscribe(disposable: Disposable): Disposable {
+        mCompositeDisposable.add(disposable)
+        return disposable
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mCompositeDisposable.clear()
     }
 }

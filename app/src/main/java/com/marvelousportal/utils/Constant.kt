@@ -1,15 +1,8 @@
 package com.marvelousportal.utils
 
-/**
- * Created by Ahmad Shubita on 8/1/17.
- */
-
 interface Constant {
     companion object {
-        val BASE_URL = "http://gateway.marvel.com/"
-        val PUBLIC_KEY = "bae8d2281a0d569b0cfd5fbc7cd6ee6f"
-        val PRIVATE_KEY = "8ec9a86b449cfdacb2a0129a896ea35ef6fe98fc"
-
+        val BASE_URL = "http://gateway.marvel.com"
 
         //Error codes
         val ERROR_CODE_GENERAL = 9856                     //Generalize error code if the error in unrecognized.

@@ -1,11 +1,9 @@
 package com.marvelousportal.fragments.series
 
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.SearchView
-import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +12,11 @@ import android.widget.Toast
 import com.marvelousportal.R
 import com.marvelousportal.app.AppController
 import com.marvelousportal.base.BaseFragment
+import com.marvelousportal.models.Model
 import com.marvelousportal.models.Result
-import com.marvelousportal.utils.Constant
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_series.*
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -29,6 +27,9 @@ import java.util.*
 class SeriesFragment : BaseFragment() {
     private var mAdapter: SeriesAdapter? = null
     private var seriesList: MutableList<Result>? = null
+    private var seriesSearchList: MutableList<Result>? = null
+    private var seriesListViewModel = AppController.injectSeriesListViewModel()
+
     /**
      * This method is used to instantiate the fragment.
      *
@@ -62,10 +63,18 @@ class SeriesFragment : BaseFragment() {
     }
 
     private fun init() {
-        /*charactersViewModel = CharactersViewModel(mContext)*/
         seriesList = ArrayList()
+        seriesSearchList = ArrayList()
         mAdapter = SeriesAdapter(mContext, seriesList!!)
         search_series.clearFocus()
+        iv_search_series.setOnClickListener {
+            if (seriesList?.size!! > 0) {
+                mAdapter?.setUserList(seriesList)
+                series_view_flipper.displayedChild = 1
+            } else {
+                fetchSeriesList()
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -76,47 +85,53 @@ class SeriesFragment : BaseFragment() {
 
     private fun fetchSeriesList() {
         series_view_flipper.displayedChild = 0
-        val appController = AppController.create(mContext)
-        val usersService = appController.apiService
-        val timeStamp = getTimestamp()
-        val disposable = usersService?.fetchSeries(timeStamp, Constant.PUBLIC_KEY, getHash(timeStamp))?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML, Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
-            }
-            seriesList?.clear()
-            seriesList?.addAll(userResponse.data.results)
-            mAdapter?.setUserList(seriesList)
-            series_view_flipper.displayedChild = 1
+        subscribe(seriesListViewModel.getSeries()?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+            showSeries(it)
         }, {
-            series_view_flipper.displayedChild = 1
-            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-            Log.i("error", it.message)
-        })
-        addSubscription(disposable)
+            Log.w("throws", it.localizedMessage)
+            series_view_flipper.displayedChild = 2
+        })!!)
+    }
+
+    private fun showSeries(it: Model) {
+        if (it.status?.contains("Ok")!!) {
+            if (it.data!!.results.isNotEmpty()) {
+                seriesList?.clear()
+                seriesList?.addAll(it.data.results)
+                mAdapter?.setUserList(seriesList)
+                series_view_flipper.displayedChild = 1
+            } else {
+                series_view_flipper.displayedChild = 2
+            }
+        } else {
+            Toast.makeText(context, it.status, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun searchSeries(query: String) {
         series_view_flipper.displayedChild = 0
-        val appController = AppController.create(mContext)
-        val usersService = appController.apiService
-        val timeStamp = getTimestamp()
-        val disposable = usersService?.searchSeries(timeStamp, Constant.PUBLIC_KEY, getHash(timeStamp),query)?.subscribeOn(appController.subscribeScheduler())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({ userResponse ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML, Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                tv_series_attribution_html.text = Html.fromHtml(userResponse.attributionHTML)
-            }
-            seriesList?.clear()
-            seriesList?.addAll(userResponse.data.results)
-            mAdapter?.setUserList(seriesList)
-            series_view_flipper.displayedChild = 1
+        subscribe(seriesListViewModel.getSearchedSeries(query)?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            Log.d("Success", "Received UIModel with ${it.data?.count} characters.")
+            showSearchedSeries(it)
         }, {
-            series_view_flipper.displayedChild = 1
-            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-            Log.i("error", it.message)
-        })
-        addSubscription(disposable)
+            Log.w("throws", it.localizedMessage)
+            series_view_flipper.displayedChild = 2
+        })!!)
+    }
+
+    private fun showSearchedSeries(it: Model) {
+        if (it.status?.contains("Ok")!!) {
+            if (it.data!!.results.isNotEmpty()) {
+                seriesSearchList?.clear()
+                seriesSearchList?.addAll(it.data.results)
+                mAdapter?.setUserList(seriesSearchList)
+                series_view_flipper.displayedChild = 1
+            } else {
+                series_view_flipper.displayedChild = 2
+            }
+        } else {
+            Toast.makeText(context, it.status, Toast.LENGTH_SHORT).show()
+        }
     }
 }

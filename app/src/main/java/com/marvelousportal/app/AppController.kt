@@ -1,47 +1,33 @@
 package com.marvelousportal.app
 
 import android.app.Application
-import android.content.Context
-import com.marvelousportal.network.APIService
-
 import com.marvelousportal.network.ApiFactory
-
-import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
+import com.marvelousportal.repository.MarvelRepository
+import com.marvelousportal.viewmodels.*
 
 class AppController : Application() {
 
-    var apiService: APIService? = null
-        get() {
-            if (field == null) {
-                apiService = ApiFactory.create()
-            }
-
-            return field
-        }
-    private var scheduler: Scheduler? = null
-
-    fun subscribeScheduler(): Scheduler {
-        if (scheduler == null) {
-            scheduler = Schedulers.io()
-        }
-
-        return scheduler as Scheduler
-    }
-
-    fun setScheduler(scheduler: Scheduler) {
-        this.scheduler = scheduler
-    }
-
     companion object {
-
-        private operator fun get(context: Context): AppController {
-            return context.applicationContext as AppController
-        }
-
-        fun create(context: Context): AppController {
-            return AppController[context]
-        }
+        private lateinit var sMarvelRepository: MarvelRepository
+        private lateinit var charactersViewModel: CharactersViewModel
+        private lateinit var comicsViewModel: ComicsViewModel
+        private lateinit var seriesViewModel: SeriesViewModel
+        private lateinit var eventsViewModel: EventsViewModel
+        private lateinit var detailViewModel: DetailViewModel
+        fun injectCharacterListViewModel() = charactersViewModel
+        fun injectComicsListViewModel() = comicsViewModel
+        fun injectSeriesListViewModel() = seriesViewModel
+        fun injectEventsListViewModel() = eventsViewModel
+        fun injectDetailViewModel() = detailViewModel
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        sMarvelRepository = MarvelRepository(ApiFactory.create(), applicationContext)
+        charactersViewModel = CharactersViewModel(sMarvelRepository)
+        comicsViewModel = ComicsViewModel(sMarvelRepository)
+        eventsViewModel = EventsViewModel(sMarvelRepository)
+        seriesViewModel = SeriesViewModel(sMarvelRepository)
+        detailViewModel = DetailViewModel(sMarvelRepository)
+    }
 }

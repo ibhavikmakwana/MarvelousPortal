@@ -8,13 +8,13 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class Model(
-        @SerializedName("code") val code: Int, //200
-        @SerializedName("status") val status: String, //Ok
-        @SerializedName("copyright") val copyright: String, //© 2018 MARVEL
-        @SerializedName("attributionText") val attributionText: String, //Data provided by Marvel. © 2018 MARVEL
-        @SerializedName("attributionHTML") val attributionHTML: String, //<a href="http://marvel.com">Data provided by Marvel. © 2018 MARVEL</a>
-        @SerializedName("etag") val etag: String, //8564460db2969053daea6042fb7b535a7f12351f
-        @SerializedName("data") val data: Data
+        @SerializedName("code") val code: Int?, //200
+        @SerializedName("status") val status: String?, //Ok
+        @SerializedName("copyright") val copyright: String?, //© 2018 MARVEL
+        @SerializedName("attributionText") val attributionText: String?, //Data provided by Marvel. © 2018 MARVEL
+        @SerializedName("attributionHTML") val attributionHTML: String?, //<a href="http://marvel.com">Data provided by Marvel. © 2018 MARVEL</a>
+        @SerializedName("etag") val etag: String?, //8564460db2969053daea6042fb7b535a7f12351f
+        @SerializedName("data") val data: Data?
 )
 
 data class Data(
