@@ -131,4 +131,11 @@ class MarvelRepository(private val apiService: APIService, private val mContext:
         }
     }
 
+    fun getDetailItemListing(url: String): Observable<Model>? {
+        val timeStamp = getTimestamp()
+        return apiService.getDetailItemListing(url + "?ts=" + timeStamp + "&apikey=" + mContext.resources.getString(R.string.public_key) + "&hash=" + getHash(timeStamp, mContext)).doOnNext {
+            Log.d("Success", "Dispatching $it characters from API...")
+        }
+    }
+
 }

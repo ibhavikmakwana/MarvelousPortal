@@ -40,6 +40,9 @@
             android:name=".activities.ZoomImageActivity"
             android:theme="@style/AppTheme.FullScreen">
         </activity>
+        <activity
+            android:name=".activities.AboutUsActivity">
+        </activity>
     </application>
 
 </manifest>

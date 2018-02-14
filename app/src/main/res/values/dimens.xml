@@ -12,4 +12,5 @@
     <dimen name="margin_16">16dp</dimen>
     <dimen name="radius_5">5dp</dimen>
     <dimen name="image_h_w">100dp</dimen>
+    <dimen name="margin_1dp">1dp</dimen>
 </resources>

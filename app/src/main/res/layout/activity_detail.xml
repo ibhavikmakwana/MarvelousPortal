@@ -48,178 +48,210 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:id="@+id/ll_main_detail"
+        <ViewFlipper
+            android:id="@+id/detail_view_flipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_8"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <!--published date-->
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
             <LinearLayout
-                android:id="@+id/ll_detail_published"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <com.marvelousportal.base.BaseTextView
-                    android:id="@+id/tv_start_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_4"
-                    android:paddingTop="@dimen/margin_4"
-                    android:text="@string/published"
-                    android:textSize="@dimen/text_16"/>
-
-                <com.marvelousportal.base.BaseTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_4"
-                    android:paddingTop="@dimen/margin_4"
-                    android:text="@string/dash"
-                    android:textSize="@dimen/text_16"/>
-
-                <com.marvelousportal.base.BaseTextView
-                    android:id="@+id/tv_end_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_4"
-                    android:paddingTop="@dimen/margin_4"
-                    android:textSize="@dimen/text_16"/>
-            </LinearLayout>
-
-            <!--Roles-->
-            <LinearLayout
-                android:id="@+id/ll_detail_role"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-            </LinearLayout>
-
-            <!--Description-->
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_detail_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_4"
-                android:paddingTop="@dimen/margin_4"
-                android:textSize="@dimen/text_16"/>
-
-
-            <!--core issue listing-->
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_detail_series"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_4"
-                android:paddingTop="@dimen/margin_4"
-                android:text="@string/series"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_20"
-                android:textStyle="bold"
-                android:visibility="gone"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_detail_series"
+                android:id="@+id/ll_main_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/margin_16"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
-
-            <!--comics listing-->
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_detail_comics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_4"
-                android:paddingTop="@dimen/margin_4"
-                android:text="@string/comics"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_20"
-                android:textStyle="bold"
-                android:visibility="gone"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_detail_comics"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/margin_16"
-                android:visibility="gone"/>
-
-            <!--character in event listing-->
-            <com.marvelousportal.base.BaseTextView
-                android:id="@+id/tv_detail_event"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_4"
-                android:paddingTop="@dimen/margin_4"
-                android:text="@string/characters_in_this_event"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_20"
-                android:textStyle="bold"
-                android:visibility="gone"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_detail_event"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/margin_16"
-                android:visibility="gone"/>
-
-            <!--FOOTER-->
-            <LinearLayout
-                android:id="@+id/ll_detail_footer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
+                android:layout_margin="@dimen/margin_8"
                 android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
-
-                <com.marvelousportal.base.BaseTextView
-                    android:id="@+id/tv_detail"
+                <!--published date-->
+                <LinearLayout
+                    android:id="@+id/ll_detail_published"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_8"
-                    android:text="@string/detail"
-                    android:textSize="@dimen/text_16"
-                    android:visibility="gone"/>
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
+                    <com.marvelousportal.base.BaseTextView
+                        android:id="@+id/tv_start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_4"
+                        android:paddingTop="@dimen/margin_4"
+                        android:text="@string/published"
+                        android:textSize="@dimen/text_16"/>
 
-                <com.marvelousportal.base.BaseTextView
-                    android:id="@+id/tv_wiki"
+                    <com.marvelousportal.base.BaseTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_4"
+                        android:paddingTop="@dimen/margin_4"
+                        android:text="@string/dash"
+                        android:textSize="@dimen/text_16"/>
+
+                    <com.marvelousportal.base.BaseTextView
+                        android:id="@+id/tv_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_4"
+                        android:paddingTop="@dimen/margin_4"
+                        android:textSize="@dimen/text_16"/>
+                </LinearLayout>
+
+                <!--Roles-->
+                <LinearLayout
+                    android:id="@+id/ll_detail_role"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_8"
-                    android:text="@string/wiki"
-                    android:textSize="@dimen/text_16"
-                    android:visibility="gone"/>
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
-
+                <!--Description-->
                 <com.marvelousportal.base.BaseTextView
-                    android:id="@+id/tv_comic"
+                    android:id="@+id/tv_detail_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_8"
-                    android:text="@string/comic"
-                    android:textSize="@dimen/text_16"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:textSize="@dimen/text_16"/>
+
+
+                <!--series listing-->
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_detail_series"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:text="@string/series"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_20"
+                    android:textStyle="bold"
                     android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_detail_series"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:orientation="horizontal"
+                    android:visibility="gone"/>
+
+                <!--comics listing-->
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_detail_comics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:text="@string/comics"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_20"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_detail_comics"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:visibility="gone"/>
+
+                <!--event listing-->
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_detail_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:text="@string/events"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_20"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_detail_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:visibility="gone"/>
+
+                <!--character listing-->
+                <com.marvelousportal.base.BaseTextView
+                    android:id="@+id/tv_detail_character"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_4"
+                    android:paddingTop="@dimen/margin_4"
+                    android:text="@string/characters"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_20"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_detail_character"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:orientation="horizontal"
+                    android:visibility="gone"/>
+
+                <!--FOOTER-->
+                <LinearLayout
+                    android:id="@+id/ll_detail_footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_8"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+
+                    <com.marvelousportal.base.BaseTextView
+                        android:id="@+id/tv_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_8"
+                        android:text="@string/detail"
+                        android:textSize="@dimen/text_16"
+                        android:visibility="gone"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+
+                    <com.marvelousportal.base.BaseTextView
+                        android:id="@+id/tv_wiki"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_8"
+                        android:text="@string/wiki"
+                        android:textSize="@dimen/text_16"
+                        android:visibility="gone"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+
+                    <com.marvelousportal.base.BaseTextView
+                        android:id="@+id/tv_comic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_8"
+                        android:text="@string/comic"
+                        android:textSize="@dimen/text_16"
+                        android:visibility="gone"/>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ViewFlipper>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

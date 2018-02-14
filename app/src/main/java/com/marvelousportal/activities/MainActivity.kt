@@ -69,7 +69,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_about_us -> true
+            R.id.action_about_us -> {
+                AboutUsActivity.launchActivity(this@MainActivity)
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -100,6 +103,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_events -> {
                 fragment = EventsFragment()
                 title = getString(R.string.events)
+            }
+            R.id.nav_share -> {
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        "Hey check out my marvel app at: https://drive.google.com/file/d/14tbMzavz30DG6BQ1Xzx_0wih2jowvZcF/view?usp=sharing")
+                sendIntent.type = "text/plain"
+                startActivity(sendIntent)
             }
         }
         //replacing the fragment

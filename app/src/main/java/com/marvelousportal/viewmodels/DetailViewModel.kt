@@ -50,4 +50,14 @@ class DetailViewModel(private val marvelRepository: MarvelRepository) {
                     Model(ErrorHandler.getErrorCode(it), ErrorHandler.getErrorMessage(it), null, null, null, null, null)
                 }
     }
+
+    fun getListItems(url: String): Observable<Model>? {
+        return marvelRepository.getDetailItemListing(url)?.debounce(400, TimeUnit.MILLISECONDS)?.map {
+            Log.d("Success", "Mapping characters to UIData...")
+            Model(it.code, it.status, it.copyright, it.attributionText, it.attributionHTML, it.etag, it.data)
+        }?.onErrorReturn {
+                    Log.d("Error", it.localizedMessage)
+                    Model(ErrorHandler.getErrorCode(it), ErrorHandler.getErrorMessage(it), null, null, null, null, null)
+                }
+    }
 }

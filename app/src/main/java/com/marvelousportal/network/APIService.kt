@@ -2,9 +2,7 @@ package com.marvelousportal.network
 
 import com.marvelousportal.models.Model
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface APIService {
 
@@ -85,4 +83,8 @@ interface APIService {
                      @Query("hash") hash: String,
                      @Query("titleStartsWith") nameStartsWith: String,
                      @Query("limit") limit: Int): Observable<Model>
+
+    @GET
+    @Headers("Content-Type: application/x-www-form-urlencoded;charset=utf-8")
+    fun getDetailItemListing(@Url url: String): Observable<Model>
 }
