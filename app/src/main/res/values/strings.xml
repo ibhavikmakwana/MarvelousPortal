@@ -21,8 +21,8 @@
     <string name="events">Events</string>
     <string name="series">Series</string>
     <string name="comics">Comics</string>
-    <string name="public_key">bae8d2281a0d569b0cfd5fbc7cd6ee6f</string>
-    <string name="private_key">8ec9a86b449cfdacb2a0129a896ea35ef6fe98fc</string>
+    <string name="public_key">YOUR API KEY</string>
+    <string name="private_key">YOUR API KEY</string>
     <string name="description_not_available">Description is not available</string>
     <string name="app_version">App version:</string>
     <string name="powered_by">Powered by:</string>
