@@ -16,7 +16,7 @@ First, fork this repository.
 Next, clone this repository to your desktop to make changes.
 
 ```
-$ git clone https://github.com/ibhavikmakwana/MarvelousPortal.git
+$ git clone {YOUR_REPOSITORY_CLONE_URL}
 ```
 
 Once you've pushed changes to your local repository, you can issue a pull request by clicking on the green pull request icon.
