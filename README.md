@@ -31,11 +31,12 @@ val PRIVATE_KEY = "YOUR_PRIVATE_KEY"
 
 You can get your from [Marvel](https://developer.marvel.com/account).
 
-# License
-
-The contents of this repository are covered under the [MIT License](https://github.com/ibhavikmakwana/MarvelousPortal/blob/master/LICENSE).
-
 # Developed by
 
 - Bhavik Makwana [linkedin](www.linkedin.com/in/ibhavikmakwana
 ) [Twitter](https://twitter.com/ibhavikmakwana)
+
+
+# License
+
+The contents of this repository are covered under the [MIT License](https://github.com/ibhavikmakwana/MarvelousPortal/blob/master/LICENSE).
