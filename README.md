@@ -2,6 +2,8 @@
 An app on the Marvel Comics API.
 The Marvel Comics API allows developers everywhere to access information about Marvel's vast library of comics—from what's coming up, to 70 years ago. 
 
+Implemented **Model View View Model** used to explain how to use this pattern in our android applications.
+
 # Screenshots
 
 <img src="https://i.imgur.com/sQQlzjg.png" height="400" alt="Screenshot"/> <img src="https://i.imgur.com/l2ihBUj.png" height="400" alt="Screenshot"/> 
@@ -32,3 +34,8 @@ You can get your from [Marvel](https://developer.marvel.com/account).
 # License
 
 The contents of this repository are covered under the [MIT License](https://github.com/ibhavikmakwana/MarvelousPortal/blob/master/LICENSE).
+
+# Developed by
+
+- Bhavik Makwana [linkedin](www.linkedin.com/in/ibhavikmakwana
+) [Twitter](https://twitter.com/ibhavikmakwana)
