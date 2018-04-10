@@ -33,8 +33,7 @@ You can get your from [Marvel](https://developer.marvel.com/account).
 
 # Developed by
 
-- Bhavik Makwana [linkedin](www.linkedin.com/in/ibhavikmakwana
-) [Twitter](https://twitter.com/ibhavikmakwana)
+- Bhavik Makwana [linkedin](www.linkedin.com/in/ibhavikmakwana) [Twitter](https://twitter.com/ibhavikmakwana)
 
 
 # License
