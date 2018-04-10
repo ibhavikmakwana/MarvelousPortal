@@ -1,11 +1,35 @@
 # MarvelousPortal
-All about MARVEL
+An app on the Marvel Comics API.
+The Marvel Comics API allows developers everywhere to access information about Marvel's vast library of comics—from what's coming up, to 70 years ago. 
 
+# How to Contribute
+Find any typos? Have another resource you think should be included? Contributions are welcome!
+
+First, fork this repository.
+
+Next, clone this repository to your desktop to make changes.
+
+'''
+$ git clone {YOUR_REPOSITORY_CLONE_URL}
+$ cd ud777-writing-readmes
+'''
+
+Once you've pushed changes to your local repository, you can issue a pull request by clicking on the green pull request icon.
+
+
+# API keys
 add your API's key in the constant 
 val PUBLIC_KEY = "YOUR_PUBLIC_KEY"
 val PRIVATE_KEY = "YOUR_PRIVATE_KEY"
 
-You can get your from https://developer.marvel.com/account.
+You can get your from [Marvel](https://developer.marvel.com/account).
+
+# License
+
+The contents of this repository are covered under the [MIT License](https://github.com/ibhavikmakwana/MarvelousPortal/blob/master/LICENSE).
+
+
+# Screenshots
 
 <img src="https://i.imgur.com/sQQlzjg.png" height="400" alt="Screenshot"/>
 <img src="https://i.imgur.com/l2ihBUj.png" height="400" alt="Screenshot"/>
