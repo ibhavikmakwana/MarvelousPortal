@@ -10,8 +10,7 @@ First, fork this repository.
 Next, clone this repository to your desktop to make changes.
 
 '''
-$ git clone {YOUR_REPOSITORY_CLONE_URL}
-$ cd ud777-writing-readmes
+$ git clone {https://github.com/ibhavikmakwana/MarvelousPortal.git}
 '''
 
 Once you've pushed changes to your local repository, you can issue a pull request by clicking on the green pull request icon.
