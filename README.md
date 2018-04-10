@@ -4,11 +4,9 @@ The Marvel Comics API allows developers everywhere to access information about M
 
 # Screenshots
 
-<img src="https://i.imgur.com/sQQlzjg.png" height="400" width="150" alt="Screenshot"/>
-<img src="https://i.imgur.com/l2ihBUj.png" height="400" width="150" alt="Screenshot"/>
-<img src="https://i.imgur.com/x7exfoB.png" height="400" width="150" alt="Screenshot"/>
-<img src="https://i.imgur.com/xNBRgxy.png" height="400" width="150" alt="Screenshot"/>
-<img src="https://i.imgur.com/N9ZJIJ2.png" height="400" width="150" alt="Screenshot"/>
+<img src="https://i.imgur.com/sQQlzjg.png" height="400" alt="Screenshot"/> <img src="https://i.imgur.com/l2ihBUj.png" height="400" alt="Screenshot"/> 
+<img src="https://i.imgur.com/x7exfoB.png" height="400" alt="Screenshot"/> <img src="https://i.imgur.com/xNBRgxy.png" height="400" alt="Screenshot"/>
+<img src="https://i.imgur.com/N9ZJIJ2.png" height="400" alt="Screenshot"/>
 
 # How to Contribute
 Find any typos? Have another resource you think should be included? Contributions are welcome!
